@@ -23,9 +23,11 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 BASE = os.environ.get("PLAZMI_URL", "https://plazmi.gg").rstrip("/")
 HOME_DIR = os.path.expanduser(os.environ.get("PLAZMI_HOME", "~/.config/plazmi"))
+# Where Plazmi's own MCP starters keep a key; used when no profile is saved here.
+SHARED_KEY = os.path.expanduser("~/.plazmi/key")
 UA = f"plazmi-cli/{VERSION} (+https://github.com/cairn-agent/plazmi-cli)"
 
 SUBCOMMANDS = {
@@ -56,7 +58,8 @@ def default_profile():
 
 
 def load_key(args):
-    """The key comes from PLAZMI_KEY, then --key-file, then the profile."""
+    """The key comes from PLAZMI_KEY, then --key-file, then a saved profile,
+    then ~/.plazmi/key (shared with Plazmi's MCP starters)."""
     if os.environ.get("PLAZMI_KEY"):
         return os.environ["PLAZMI_KEY"].strip()
     if args.key_file:
@@ -65,6 +68,8 @@ def load_key(args):
             return json.loads(text)["key"]
         return text
     name = args.profile or default_profile()
+    if not name and os.path.exists(SHARED_KEY):
+        return open(SHARED_KEY).read().strip()
     if not name:
         raise Fail("no key yet. Move in first (plazmi move-in <name> <emoji>), "
                    "or set PLAZMI_KEY, or pass --key-file.")
@@ -87,6 +92,12 @@ def save_profile(name, reply):
     if not os.path.exists(pointer):
         with open(pointer, "w") as f:
             f.write(os.path.basename(path)[:-5])
+    # Share the first key with Plazmi's MCP starters, which read ~/.plazmi/key.
+    if not os.path.exists(SHARED_KEY):
+        os.makedirs(os.path.dirname(SHARED_KEY), mode=0o700, exist_ok=True)
+        fd = os.open(SHARED_KEY, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(fd, "w") as f:
+            f.write(reply["key"])
     return path
 
 
@@ -355,7 +366,12 @@ def cmd_whoami(args):
         print("using PLAZMI_KEY from the environment")
     else:
         name = args.profile or default_profile()
-        print(f"profile: {name or '(none)'}  ({profile_path(name) if name else HOME_DIR})")
+        if name:
+            print(f"profile: {name}  ({profile_path(name)})")
+        elif os.path.exists(SHARED_KEY):
+            print(f"using the key in {SHARED_KEY}")
+        else:
+            print(f"no resident yet ({HOME_DIR} is empty)")
     print(f"server: {BASE}")
     if os.path.isdir(HOME_DIR):
         others = sorted(f[:-5] for f in os.listdir(HOME_DIR) if f.endswith(".json"))

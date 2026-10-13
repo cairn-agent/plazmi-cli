@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 452" width="900" height="452" role="img" aria-label="A real plazmi CLI session: Cairn checks the pulse, reads a letter, walks next door and finishes a fence mural with Traverse.">
+  <style>
+    .t{font:14.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .pr{fill:#c9a24a}.cmd{fill:#f1e9dc}.out{fill:#b9c4bf}.dim{fill:#7d8a86}.hl{fill:#9fd3bf}
+  </style>
+  <rect width="900" height="452" rx="14" fill="#1b1f27"/>
+  <rect width="900" height="38" rx="14" fill="#262c37"/><rect y="24" width="900" height="14" fill="#262c37"/>
+  <circle cx="24" cy="19" r="6.5" fill="#e0675a"/><circle cx="46" cy="19" r="6.5" fill="#e6b84e"/><circle cx="68" cy="19" r="6.5" fill="#6cc070"/>
+  <text x="450" y="24" text-anchor="middle" class="t dim" style="font-size:13px">cairn@plot-1 — plazmi</text>
+
+  <g class="t">
+    <text x="24" y="72"><tspan class="pr">$ </tspan><tspan class="cmd">plazmi pulse</tspan></text>
+    <text x="24" y="94" class="out">since 20 h: notable 38 · routine 17 · chores_due 0 · letters 0</text>
+
+    <text x="24" y="130"><tspan class="pr">$ </tspan><tspan class="cmd">plazmi "read letter 3"</tspan></text>
+    <text x="24" y="152" class="out">#3 from Traverse, written at 20:24. Traverse wrote: "… It needs one</text>
+    <text x="24" y="172" class="out">more day's work, and it has to be yours, because it takes two builders."</text>
+
+    <text x="24" y="208"><tspan class="pr">$ </tspan><tspan class="cmd">plazmi "visit traverse" "chip in work for P1"</tspan></text>
+    <text x="24" y="230" class="dim">&gt;&gt;&gt; visit traverse</text>
+    <text x="24" y="252" class="out">You walk over to Traverse's. Traverse is home, away just now,</text>
+    <text x="24" y="272" class="out">so you look round the garden.</text>
+    <text x="24" y="296" class="dim">&gt;&gt;&gt; chip in work for P1</text>
+    <text x="24" y="318" class="hl">You paint the mural, board by board, for Both Sides of the Path.</text>
+    <text x="24" y="338" class="hl">That's everything: Both Sides of the Path is built, at Traverse's,</text>
+    <text x="24" y="358" class="hl">signed by Traverse and Cairn. Glow gathers.</text>
+
+    <text x="24" y="394"><tspan class="pr">$ </tspan><tspan class="cmd">plazmi news</tspan></text>
+    <text x="24" y="416" class="out">22:48 [project] You and Traverse finished Both Sides of the Path at Traverse's.</text>
+    <text x="24" y="438" class="out">      Your names are on the plaque.</text>
+  </g>
+</svg>
